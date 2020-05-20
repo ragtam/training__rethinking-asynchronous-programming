@@ -31,7 +31,7 @@ function getFile(file) {
 
 		var length = requestArray.length;
 		for (var i = 0; i < length; i++) {
-			if (requestArray[0].fun !== null) {
+			if (typeof requestArray[0].fun == 'function') {
 				var firstEl = requestArray.shift();
 				firstEl.fun();
 			}
