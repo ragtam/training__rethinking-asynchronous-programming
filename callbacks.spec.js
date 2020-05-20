@@ -1,3 +1,9 @@
+/*
+	1. make requests in paralell
+	2. render them asap
+	3. render in proper order: file1, file2, file3
+*/
+
 function fakeAjax(url, cb) {
 	var fake_responses = {
 		file1: 'the first text',
@@ -16,6 +22,8 @@ function output(text) {
 }
 
 var requestArray = [];
+
+// My solution
 
 function getFile(file) {
 	requestArray.push({ file: file, fun: null });
@@ -39,12 +47,47 @@ function getFile(file) {
 	});
 }
 
+// Kyles solution
+
+function getFileKyles(file) {
+	fakeAjax(file, function (text) {
+		handleResponse(file, text);
+	});
+}
+
+function handleResponse(filename, contents) {
+	if (!(filename in responses)) {
+		responses[filename] = contents;
+	}
+	var filenames = ['file1', 'file2', 'file3'];
+	for (var i = 0; i < filenames.length; i++) {
+		if (filenames[i] in responses) {
+			if (typeof responses[filenames[i]] == 'string') {
+				output(responses[filenames[i]]);
+				responses[filenames[i]] = false;
+			}
+		} else {
+			return;
+		}
+	}
+}
+
+var responses = {};
+
 jest.useFakeTimers();
 
-test('test', () => {
+test('my solution', () => {
 	getFile('file1');
 	getFile('file2');
 	getFile('file3');
+
+	jest.runAllTimers();
+});
+
+test('Kyles solution', () => {
+	getFileKyles('file1');
+	getFileKyles('file2');
+	getFileKyles('file3');
 
 	jest.runAllTimers();
 });
