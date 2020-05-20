@@ -1,0 +1,22 @@
+{
+  "name": "training__rethinking-asynchronous-programming",
+  "version": "1.0.0",
+  "description": "",
+  "main": "callbacks.spec.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ragtam/training__rethinking-asynchronous-programming.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ragtam/training__rethinking-asynchronous-programming/issues"
+  },
+  "homepage": "https://github.com/ragtam/training__rethinking-asynchronous-programming#readme",
+  "dependencies": {
+    "jest": "^26.0.1"
+  }
+}
