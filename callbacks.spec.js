@@ -29,26 +29,15 @@ function getFile(file) {
 			},
 		};
 
-		if (requestArray[0].fun !== null) {
-			var firstEl = requestArray.shift();
-			firstEl.fun();
-
+		var length = requestArray.length;
+		for (var i = 0; i < length; i++) {
 			if (requestArray[0].fun !== null) {
 				var firstEl = requestArray.shift();
 				firstEl.fun();
-
-				if (requestArray[0].fun !== null) {
-					var firstEl = requestArray.shift();
-					firstEl.fun();
-				}
 			}
 		}
 	});
 }
-
-// getFile('file1');
-// getFile('file2');
-// getFile('file3');
 
 jest.useFakeTimers();
 
