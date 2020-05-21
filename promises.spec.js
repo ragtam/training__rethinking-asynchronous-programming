@@ -1,0 +1,4 @@
+/*
+    Most people have focused on Promises as an API. But this is the least interesting part.
+    They are codification of pattern that lets us code in time independent way.
+*/

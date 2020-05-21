@@ -57,7 +57,7 @@ function chainThunks(...thunks) {
 	this is an active thunk. The pattern can be implemented with those ifs in 63 and 71 inverted. Either we save response or we
 	save the callback; once both are there we are able to call callback fun. Hats off :D
 */
-function getFileKylesVer() {
+function getFileKylesVer(file) {
 	var text, fn;
 	fakeAjax(file, function (response) {
 		if (fn) {
