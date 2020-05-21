@@ -1,3 +1,8 @@
+/*
+	Promises are not replacements for thunks. When writing our libs we can use it to avoid depending on libraries.
+	This is a lightweight solution for asynchronous sequencing tasks.
+*/
+
 function fakeAjax(url, cb) {
 	var fake_responses = {
 		file1: 'the first text',
@@ -47,6 +52,30 @@ function chainThunks(...thunks) {
 	});
 }
 
+/*
+	Kyles Simpson freaking son of a gun solution
+	this is an active thunk. The pattern can be implemented with those ifs in 63 and 71 inverted. Either we save response or we
+	save the callback; once both are there we are able to call callback fun. Hats off :D
+*/
+function getFileKylesVer() {
+	var text, fn;
+	fakeAjax(file, function (response) {
+		if (fn) {
+			fn(response);
+		} else {
+			text = response;
+		}
+	});
+
+	return function (cb) {
+		if (text) {
+			cb(text);
+		} else {
+			fn = cb;
+		}
+	};
+}
+
 jest.useFakeTimers();
 
 test('should do the right', () => {
@@ -57,4 +86,21 @@ test('should do the right', () => {
 	chainThunks(t1, t2, t3);
 
 	jest.runAllTimers();
+});
+
+test('Kyles solution', () => {
+	var th1 = getFileKylesVer('file1');
+	var th2 = getFileKylesVer('file2');
+	var th3 = getFileKylesVer('file3');
+
+	th1(function (text1) {
+		output(text1);
+		th2(function (text2) {
+			output(text2);
+			th3(function (text3) {
+				output(text3);
+				output('Complete!');
+			});
+		});
+	});
 });
