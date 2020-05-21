@@ -1,4 +1,6 @@
 /*
+    THIS DOES NOT SOLVE CALLBACKS PROBLEMS, PROMISE WILL DO IT
+
     Thunk - a function that has already that it needs to do to pass it a value back.
     Usually a closure to remember the values.
 */
@@ -11,7 +13,7 @@ var thunk = function () {
 	return add(10, 15);
 };
 
-test('add', function () {
+test('add', () => {
 	var x = thunk();
 
 	expect(x).toEqual(25);
@@ -32,10 +34,27 @@ function addAsync(x, y, cb) {
 	}, 1000);
 }
 
-var thunk = function (cb) {
+var thunkAsync = function (cb) {
 	addAsync(10, 15, cb);
 };
 
-thunk(function (sum) {
-	console.log(sum);
+jest.useFakeTimers();
+test('thunk async', function () {
+	var res = 0;
+	thunkAsync(function (sum) {
+		res = sum;
+	});
+
+	jest.runAllTimers();
+
+	expect(res).toEqual(25);
 });
+
+/*
+    By wrapping a state inside, we normalized time out of the equation. We take time out of equation.
+
+    TIME IS THE MOST COMPLEX FACTOR OF STATE in your programme.
+
+    LAZY thunk, does not do the work until we call it
+    ACTIVE thunk, does the job on the creation
+*/
