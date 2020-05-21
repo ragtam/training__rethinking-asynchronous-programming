@@ -25,3 +25,28 @@ setTimeout(function () {
     How to secure ourselves from trust issues? 
     Callback has no solution for that
 */
+
+/*
+    A way to express Temporal Dependency with callbacks is through nesting.
+
+    When one thing depends upon another thing finishing
+    before it can go. And the only way is nesting.
+
+    We need to plan our programme the way our brain works. We need to do asynchronous code with 
+    synchronous fashion. But we need a pattern for that. Callback don`t let us do it.
+*/
+
+// we need to represent this:
+console.log('first half of the programme');
+
+setTimeout(function () {
+	console.log('second half of the programme');
+}, 1000);
+
+// with sth like this:
+
+console.log('first half of the programme');
+
+block(1000); // in fact not block but do some other stuff and come back later
+
+console.log('second half of the programme');
