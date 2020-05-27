@@ -100,3 +100,23 @@ test('text', () => {
 
 	jest.runAllTimers();
 });
+
+test('error handling', () => {
+	var p1 = getFile('file1');
+
+	p1.then(function () {
+		throw 'some unexpected error';
+	})
+		.then(function () {
+			console.log('This text won`t be written to console due to error thrown above');
+		})
+		.catch(function (error) {
+			console.log('Error was automatically changed into promise rejection');
+		});
+
+	jest.runAllTimers();
+});
+
+/*
+	.catch in a promise is equivalend to .then(null, function(err) { })
+*/
